@@ -39,7 +39,7 @@ const PostScreen = ({route, navigation}) => {
                     }
                 }
             ],
-            // {cancelable: false}
+            {cancelable: false}
         );
     }
     if (!post) {
