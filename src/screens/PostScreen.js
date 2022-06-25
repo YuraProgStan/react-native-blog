@@ -10,21 +10,18 @@ const PostScreen = ({route, navigation}) => {
     const {postId, date} = route.params;
     // const post = DATA.find(p => p.id === postId);
     const post = useSelector(state => state.post.allPosts.find(p => p.id === postId));
-
+    console.log('postSelector', post);
     const booked = post.booked;
+    console.log('booked in post', booked);
     const [bookedState, setBookedState] = useState(booked)
     const dispatch = useDispatch();
     const bookedFind = useSelector(state => state.post.bookedPosts).some(post => post.id === postId);
-    useEffect(() => {
-        setBookedState(bookedFind)
-    }, [bookedFind])
+
 
     const toggleHandler = () => {
         dispatch(postActions.toggleBookedFetching(post))
     }
-    // useEffect(() => {
-    //   navigation.setParams({toggleHandler})
-    // },[toggleHandler])
+
     const removeHandler = () => {
         Alert.alert(
             "Delete post",
@@ -39,11 +36,10 @@ const PostScreen = ({route, navigation}) => {
                     onPress: () => {
                         dispatch(postActions.removePostFetching(postId));
                         navigation.navigate('Main');
-
                     }
                 }
             ],
-            {cancelable: false}
+            // {cancelable: false}
         );
     }
     if (!post) {
@@ -65,8 +61,8 @@ const PostScreen = ({route, navigation}) => {
                     ),
             }
         );
-
-    }, [toggleHandler, bookedState])
+        setBookedState(bookedFind);
+    }, [toggleHandler])
     return (
         <ScrollView style={styles.center}>
             <Image source={{uri: post.img}} style={styles.image}/>

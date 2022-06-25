@@ -112,10 +112,14 @@ const postSlice = createSlice({
             state.bookedPosts = allPosts.filter(post => post.booked);
         })
         builder.addCase(removePostFetching.fulfilled, (state, action) => {
+            console.log('Before filter all')
             state.allPosts = state.allPosts.filter(item => item.id !== action.payload);
+            console.log('Before after filter all')
+
             if (state.bookedPosts.length) {
                 state.bookedPosts = state.bookedPosts.filter(item => item?.id !== action.payload)
             }
+            console.log('After filter booked')
         })
 
     }

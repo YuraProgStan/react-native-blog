@@ -45,7 +45,7 @@ const BookedStack = createNativeStackNavigator();
 const BookedStackNavigation = () => {
     return (
         <BookedStack.Navigator
-            initialRouteName="Main"
+            initialRouteName="Booked"
             screenOptions={navigatorOptions}>
             <BookedStack.Screen name="Booked" options={{
                 title: 'Booked post',
