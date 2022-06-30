@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Button, Image, ScrollView, Alert} from 'react-native';
+import {View, Text, StyleSheet, Button, Image, ScrollView, Alert, Linking} from 'react-native';
 import {THEME} from "../theme";
 import {HeaderButtons, Item} from "react-navigation-header-buttons";
 import AppHeaderIcon from "../components/AppHeaderIcon";
@@ -11,7 +11,16 @@ const PostScreen = ({route, navigation}) => {
     // const post = DATA.find(p => p.id === postId);
     const post = useSelector(state => state.post.allPosts.find(p => p.id === postId));
     console.log('postSelector', post);
-    const booked = post.booked;
+
+    let booked;
+    if (typeof post === "undefined") {
+        booked = false;
+        navigation.navigate('Booked');
+
+    } else {
+        booked = post.booked
+    }
+
     console.log('booked in post', booked);
     const [bookedState, setBookedState] = useState(booked)
     const dispatch = useDispatch();
@@ -42,11 +51,12 @@ const PostScreen = ({route, navigation}) => {
             {cancelable: false}
         );
     }
-    if (!post) {
-        return null
-    }
+    // if (!post) {
+    //     return null
+    // }
 
     useEffect(() => {
+
         const iconName = bookedState ? 'ios-star' : 'ios-star-outline';
 
         navigation.setOptions(
@@ -61,8 +71,15 @@ const PostScreen = ({route, navigation}) => {
                     ),
             }
         );
+
+
         setBookedState(bookedFind);
+
+
     }, [toggleHandler])
+    if (!post) {
+        return null
+    }
     return (
         <ScrollView style={styles.center}>
             <Image source={{uri: post.img}} style={styles.image}/>
@@ -71,6 +88,7 @@ const PostScreen = ({route, navigation}) => {
             </View>
             <Button onPress={removeHandler} title={'Delete'} color={THEME.DANGER_COLOR}/>
         </ScrollView>
+
     );
 };
 
